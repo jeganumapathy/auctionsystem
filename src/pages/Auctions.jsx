@@ -27,7 +27,6 @@ function Auctions() {
   /** Component did mount */
   useEffect(() => {
     arrayLength();
-
     console.log('DID Mount')
   })
   /** Component update */
