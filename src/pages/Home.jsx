@@ -1,5 +1,6 @@
 import React from "react";
 import AddItem from "../components/AddItem";
+import RecordList from "../components/recordList";
 
 const products = [
   { title: 'Cabbage', isFruit: false, id: 1 },
@@ -22,7 +23,8 @@ const Home = () => {
   return (
     <ul>
       <AddItem />
-      {listItems}</ul>
+      <RecordList/>
+     </ul>
   );
 };
 

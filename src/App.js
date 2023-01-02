@@ -10,6 +10,7 @@ import About from './pages/About';
 import FAQ from './pages/FAQ';
 import Pricing from './pages/Pricing';
 import ItemDetails from './pages/ItemDetails';
+import Edit from "./components/edit";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="FAQ" element={<FAQ />} />
             <Route path="Pricing" element={<Pricing />} />
             <Route path="ItemDetails" element={<ItemDetails />} />
+            <Route path="/edit/:id" element={<Edit />} />
           </Routes>
         </div>
       </div>

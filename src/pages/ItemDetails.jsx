@@ -1,5 +1,6 @@
 import React from "react";
 import Create from "../components/create";
+import Edit from "../components/edit";
 
 const ItemDetails = () => {
   return (
