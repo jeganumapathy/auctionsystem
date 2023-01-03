@@ -1,7 +1,10 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from "react-router-dom";
+import { Nav, Navbar, NavLink } from "react-bootstrap";
 import logo from '../logo.svg';
+
+
 
 const headerData = [{
     id: 0,
@@ -29,19 +32,25 @@ const headerData = [{
 
 function Header() {
     const listItems = headerData.map(data =>
-        <li key={data.id.toString()}> <Link to={data.path} className="nav-link px-2 link-dark">{data.name}</Link></li>
+        <NavLink key={data.id} as={Link} to={data.path}>{data.name}</NavLink>
     );
 
     return (
         <div>
-            <header className="p-1 text-bg-light">
-                <div className="container">
-                    <ul className="nav col-12 col-md-auto mb-3 justify-content-center mb-md-1">
-                        <img src={logo} className="App-logo" alt="logo" />
+            <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+                <Navbar.Brand>
+                    <img src={logo} width="40px" height="40px" />{' '}
+                    BDAuctions
+                </Navbar.Brand>
+
+                <Navbar.Toggle aria-controls="navbarScroll" data-bs-toggle="collapse" data-bs-target="#navbarScroll" />
+                <Navbar.Collapse id="navbarScroll">
+                    <Nav>
                         {listItems}
-                    </ul>
-                </div>
-            </header>
+                    </Nav>
+                </Navbar.Collapse>
+            </Navbar>
+
         </div>
     );
 }

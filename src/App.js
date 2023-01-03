@@ -16,9 +16,7 @@ function App() {
   return (
     <div className="App">
       <Header></Header>
-      <p>
-        Welcome to bidding system
-      </p>
+
       <div>
         <div>
           <Routes>
@@ -32,11 +30,7 @@ function App() {
           </Routes>
         </div>
       </div>
-      <footer className="App-footer" />
     </div>
-
-
-
   );
 }
 
