@@ -18,6 +18,7 @@ function CreateAuctionItem() {
         item_Favorites: "",
         item_Instrucion: ""
     });
+
     const navigate = useNavigate();
 
     // These methods will update the state properties.
@@ -33,34 +34,21 @@ function CreateAuctionItem() {
 
         // When a post request is sent to the create url, we'll add a new record to the database.
         const newItem = { ...form };
-
-        await fetch("http://localhost:5000/auction/add", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newItem),
-        })
-            .catch(error => {
-                window.alert(error);
-                return;
-            });
-
-        setForm({
-            item_Name: "",
-            item_Description: "",
-            item_Photo: "",
-            item_Status: "",
-            item_Intial_bid_Value: "",
-            item_Current_Bid_Value: "",
-            item_Final_BidValue: "",
-            item_StartDate: "",
-            item_EndDate: "",
-            item_Review: "",
-            item_TotalBids: "",
-            item_Favorites: "",
-            item_Instrucion: ""
-        });
+        for (let i = 0; i < 1000; i++) {
+            newItem.item_Description = ""+i;
+            await fetch("http://localhost:5000/auction/add", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newItem),
+            })
+                .catch(error => {
+                    window.alert(error);
+                    return;
+                });
+        }
+        setForm({ item_Name: "", item_Description: "", item_Photo: "", item_Status: "", item_Intial_bid_Value: "", item_Current_Bid_Value: "", item_Final_BidValue: "", item_StartDate: "", item_EndDate: "", item_Review: "", item_TotalBids: "", item_Favorites: "", item_Instrucion: "" });
         navigate("/Home");
         window.location.reload(false);
     }

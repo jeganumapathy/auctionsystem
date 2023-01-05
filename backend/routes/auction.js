@@ -17,9 +17,12 @@ const tableName = "auction";
 // This section will help you get a list of all the records.
 auctionRoutes.route("/" + tableName).get(function (req, res) {
   let db_connect = dbo.getDb();
+  var perPage = 500;
+  var page = req.query.page || 1;
+  var pageSkip = perPage * page - perPage;
   db_connect
     .collection(tableName)
-    .find({})
+    .find({}, {limit:perPage, skip:pageSkip})
     .toArray(function (err, result) {
       if (err) throw err;
       res.json(result);
