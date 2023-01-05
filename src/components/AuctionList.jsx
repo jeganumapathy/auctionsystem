@@ -19,7 +19,8 @@ const Record = (props) => (
     <td>{props.record.item_Favorites}</td>
     <td>{props.record.item_Instrucion}</td>
     <td>
-    <button className="btn btn-link">Bid</button>
+      <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
+      <button className="btn btn-link">Bid</button>
       <button className="btn btn-link"
         onClick={() => {
           props.deleteRecord(props.record._id);
@@ -101,27 +102,27 @@ export default function AuctionList() {
         <h3>Record List</h3>
         {records ? (
           <div className="table-responsive" >
-          <table className="table table-striped" style={{ marginTop: 20, overflowX: 'auto', fontSize: '14px' }}>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Photo</th>
-                <th>Status</th>
-                <th>Intial Bid Value</th>
-                <th>Current Bid Value</th>
-                <th>Final Bid Value</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Review</th>
-                <th>Total Bids</th>
-                <th>Favorites</th>
-                <th>Instrucion</th>
-              </tr>
-            </thead>
-            <tbody>{itemList()}</tbody>
-          </table>
-        </div>
+            <table className="table table-striped" style={{ marginTop: 20, overflowX: 'auto', fontSize: '14px' }}>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Photo</th>
+                  <th>Status</th>
+                  <th>Intial Bid Value</th>
+                  <th>Current Bid Value</th>
+                  <th>Final Bid Value</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Review</th>
+                  <th>Total Bids</th>
+                  <th>Favorites</th>
+                  <th>Instrucion</th>
+                </tr>
+              </thead>
+              <tbody>{itemList()}</tbody>
+            </table>
+          </div>
         ) : (
           <div className="loading">Loading...</div>
         )}

@@ -34,7 +34,7 @@ function CreateAuctionItem() {
 
         // When a post request is sent to the create url, we'll add a new record to the database.
         const newItem = { ...form };
-        for (let i = 0; i < 1000; i++) {
+        for (let i = 0; i < 1; i++) {
             newItem.item_Description = ""+i;
             await fetch("http://localhost:5000/auction/add", {
                 method: "POST",
