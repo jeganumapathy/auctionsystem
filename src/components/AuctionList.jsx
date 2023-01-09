@@ -1,7 +1,9 @@
 import { Button } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import ReactPaginate from "react-paginate";
+import React, { useEffect, useState, useMemo } from "react";
+import Pagination from '../components/Pagination';
 import { Link, useNavigate } from "react-router-dom";
+const PAGE_LIMIT = 20;
+let PageSize = 3;
 
 const Record = (props) => (
   <tr>
@@ -35,36 +37,37 @@ const Record = (props) => (
 
 
 export default function AuctionList() {
-  const PER_PAGE = 10;
   const [records, setRecords] = useState([]);
-  const [pageCount, setPageCount] = useState(1);
-  const navigate = useNavigate();
+  var [pageSkip, setPageSkip] = useState(0);
+  var [pageLimit, setPageLimit] = useState(PAGE_LIMIT);
+
   const [currentPage, setCurrentPage] = useState(1);
-  const offset = currentPage * PER_PAGE;
+  const [recordsPerPage] = useState(10);
+
 
   // This method fetches the records from the database.
-  useEffect(() => {
-    async function getRecords() {
-      let params = {
-        "page": pageCount
-      };
-      let query = Object.keys(params)
-        .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
-        .join('&');
+  async function getRecords() {
+    let params = {
+      "limit": pageLimit,
+      "skip": pageSkip
+    };
+    let query = Object.keys(params)
+      .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+      .join('&');
 
-      let url = 'http://localhost:5000/auction/?' + query;
-      const response = await fetch(url);
-      if (!response.ok) {
-        const message = `An error occurred: ${response.statusText}`;
-        window.alert(message);
-        return;
-      }
-      const records = await response.json();
-      setRecords(records);
+    let url = 'http://localhost:5000/auction/?' + query;
+    const response = await fetch(url);
+    if (!response.ok) {
+      const message = `An error occurred: ${response.statusText}`;
+      window.alert(message);
+      return;
     }
+    const records = await response.json();
+    setRecords(records);
+  }
 
+  useEffect(() => {
     getRecords();
-
     return;
   }, [records.length]);
 
@@ -77,10 +80,16 @@ export default function AuctionList() {
     const newRecords = records.filter((el) => el._id !== id);
     setRecords(newRecords);
   }
+  
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentRecords = records.slice(indexOfFirstRecord, indexOfLastRecord);
+  const nPages = Math.ceil(records.length / recordsPerPage)
+
 
   // This method will map out the records on the table
   function itemList() {
-    return records.map((record) => {
+    return currentRecords.map((record) => {
       return (
         <Record
           record={record}
@@ -89,9 +98,6 @@ export default function AuctionList() {
         />
       );
     });
-  }
-  function handlePageClick({ selected: selectedPage }) {
-    setCurrentPage(selectedPage);
   }
 
 
@@ -122,6 +128,11 @@ export default function AuctionList() {
               </thead>
               <tbody>{itemList()}</tbody>
             </table>
+            <Pagination
+                nPages={nPages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+            />
           </div>
         ) : (
           <div className="loading">Loading...</div>

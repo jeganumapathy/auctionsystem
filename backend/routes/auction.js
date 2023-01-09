@@ -10,19 +10,19 @@ const dbo = require("../db/conn");
 
 // This help convert the id from string to ObjectId for the _id.
 const ObjectId = require("mongodb").ObjectId;
-
+``
 const tableName = "auction";
 
 
 // This section will help you get a list of all the records.
 auctionRoutes.route("/" + tableName).get(function (req, res) {
   let db_connect = dbo.getDb();
-  var perPage = 500;
-  var page = req.query.page || 1;
-  var pageSkip = perPage * page - perPage;
+  const perPage = 50;
+  const limitValue = parseInt(req.query.limit) || 10;
+  const skipValue = parseInt(req.query.skip) || 0;
   db_connect
     .collection(tableName)
-    .find({}, {limit:perPage, skip:pageSkip})
+    .find({}, { limit: limitValue, skip: skipValue })
     .toArray(function (err, result) {
       if (err) throw err;
       res.json(result);
@@ -67,7 +67,7 @@ auctionRoutes.route("/" + tableName + "/add").post(function (req, response) {
 });
 
 // This section will help you update a record by id.
-auctionRoutes.route("/"+tableName+"/update/:id").post(function (req, response) {
+auctionRoutes.route("/" + tableName + "/update/:id").post(function (req, response) {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
   let newvalues = {
@@ -85,7 +85,7 @@ auctionRoutes.route("/"+tableName+"/update/:id").post(function (req, response) {
       item_TotalBids: req.body.item_TotalBids,
       item_Favorites: req.body.item_Favorites,
       item_Instrucion: req.body.item_Instrucion
-      },
+    },
   };
   db_connect
     .collection(tableName)
