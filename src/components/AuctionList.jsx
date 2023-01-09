@@ -1,7 +1,7 @@
-import { Button } from "@mui/material";
 import React, { useEffect, useState, useMemo } from "react";
 import Pagination from '../components/Pagination';
 import { Link, useNavigate } from "react-router-dom";
+import PlaceBidUI from "./PalaceBidItem";
 const PAGE_LIMIT = 20;
 let PageSize = 3;
 
@@ -12,7 +12,7 @@ const Record = (props) => (
     <td>{props.record.item_Photo}</td>
     <td>{props.record.item_Status}</td>
     <td>{props.record.item_Intial_bid_Value}</td>
-    <td>{props.record.item_Current_Bid_Value}</td>
+    <td>{JSON.stringify(props.record.item_Current_Bid_Value)}</td>
     <td>{props.record.item_Final_BidValue}</td>
     <td>{props.record.item_StartDate}</td>
     <td>{props.record.item_EndDate}</td>
@@ -21,8 +21,9 @@ const Record = (props) => (
     <td>{props.record.item_Favorites}</td>
     <td>{props.record.item_Instrucion}</td>
     <td>
-      <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
-      <button className="btn btn-link">Bid</button>
+      <PlaceBidUI data={props.record}></PlaceBidUI>
+    </td>
+    <td>
       <button className="btn btn-link"
         onClick={() => {
           props.deleteRecord(props.record._id);
@@ -30,20 +31,19 @@ const Record = (props) => (
       >
         Delete
       </button>
+
     </td>
   </tr>
 );
 
-
-
 export default function AuctionList() {
-  const [records, setRecords] = useState([]);
   var [pageSkip, setPageSkip] = useState(0);
   var [pageLimit, setPageLimit] = useState(PAGE_LIMIT);
+  
+  const [records, setRecords] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage] = useState(10);
-
 
   // This method fetches the records from the database.
   async function getRecords() {
@@ -80,14 +80,12 @@ export default function AuctionList() {
     const newRecords = records.filter((el) => el._id !== id);
     setRecords(newRecords);
   }
-  
+
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const currentRecords = records.slice(indexOfFirstRecord, indexOfLastRecord);
   const nPages = Math.ceil(records.length / recordsPerPage)
 
-
-  // This method will map out the records on the table
   function itemList() {
     return currentRecords.map((record) => {
       return (
@@ -129,9 +127,9 @@ export default function AuctionList() {
               <tbody>{itemList()}</tbody>
             </table>
             <Pagination
-                nPages={nPages}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
+              nPages={nPages}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
             />
           </div>
         ) : (

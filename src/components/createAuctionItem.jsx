@@ -34,9 +34,13 @@ function CreateAuctionItem() {
 
         // When a post request is sent to the create url, we'll add a new record to the database.
         const newItem = { ...form };
-        for (let i = 0; i < 1; i++) {
-            newItem.item_Description = ""+i;
+        for (let i = 1; i <= 1; i++) {
+            newItem.item_Description = i + "When a post request is sent to the create url, we'll add a new record to the database." + i;
+            newItem.item_Review = i;
+            newItem.item_Intial_bid_Value = 30;
+
             await fetch("http://localhost:5000/auction/add", {
+
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
